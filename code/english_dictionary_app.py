@@ -10,7 +10,8 @@ def get_the_meaning(word):
     if word in data:
         return data[word]
     else:
-        matches = get_close_matches(word,data.keys())
+        #matches = get_close_matches(word,data.keys())
+        matches = get_close_matches(word,data.keys(),cutoff= 0.8) #The number 0.8 gives soe
         if len(matches) >0:
             if matches[0] in data:
                 found_word = matches[0]
