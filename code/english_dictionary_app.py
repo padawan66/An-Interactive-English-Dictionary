@@ -16,7 +16,7 @@ def get_the_meaning(word):
             if matches[0] in data:
                 found_word = matches[0]
                 matched_word = data[found_word]
-                answer = input("Did  you mean instead"+ found_word+ " ?" +" Please enter Y or N ")
+                answer = input("Did  you mean "+ found_word+ " instead?" +" Please enter Y or N ")
                 if str.lower(str.strip(answer)) == 'n':
                     return "The word doesn't exist . Please double check it"
                 elif str.lower(str.strip(answer)) == 'y':
@@ -39,5 +39,10 @@ while True:
         if return_value == "The word doesn't exist . Please double check it": 
             print(return_value)
         else:
-            print("Meaning is :", return_value[0])
+            if isinstance(return_value[0],list):
+                print("Meaning is :","\n")
+                for item in return_value[0]:
+                    print(item)
+            elif isinstance(return_value[0],str):
+                print("Meaning is :", return_value[0])
     
