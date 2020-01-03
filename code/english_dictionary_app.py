@@ -1,22 +1,42 @@
 import json
-data = json.load(open("/Users/tejasdongre/Tejas/Personal/Python/Interactive_English_Dictionary/An-Interactive-English-Dictionary/data/data.json"))
+import difflib
+from difflib import SequenceMatcher
+from difflib import get_close_matches
+import os 
+dir_path = os.path.dirname(os.path.realpath("data.json"))
+data = json.load(open(dir_path.replace("/code","/data")+"/data.json"))
 
 def get_the_meaning(word):
     if word in data:
         return data[word]
     else:
-        return "The word doesn't exist . Please double check it"
+        matches = get_close_matches(word,data.keys())
+        if len(matches) >0:
+            if matches[0] in data:
+                found_word = matches[0]
+                matched_word = data[found_word]
+                answer = input("Did  you mean instead"+ found_word+ " ?" +" Please enter Y or N ")
+                if str.lower(str.strip(answer)) == 'n':
+                    return "The word doesn't exist . Please double check it"
+                elif str.lower(str.strip(answer)) == 'y':
+                    return matched_word
+                else:
+                    print("Invalid input")
+            else:
+                return "The word doesn't exist . Please double check it" 
+        else:
+            return "The word doesn't exist . Please double check it"
 
 
 while True:
-    entered_word = input("Enter the word for meaning ")
+    entered_word = input("Enter the word to find it's meaning . Enter /exit to exit  the application.   ")
     if entered_word == "/exit":
         print("Exiting application")
         exit()
     else:
         return_value = get_the_meaning(entered_word.lower())
-        if "return_value" == "The word doesn't exist . Please double check it": 
+        if return_value == "The word doesn't exist . Please double check it": 
             print(return_value)
         else:
-            print("Meaning is :", get_the_meaning(str.lower(entered_word)))
+            print("Meaning is :", return_value[0])
     
